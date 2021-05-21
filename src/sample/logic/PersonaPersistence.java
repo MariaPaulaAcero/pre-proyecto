@@ -1,6 +1,4 @@
-package sample;
-
-import sample.logic.entities.Persona;
+package sample.logic;
 
 import java.io.*;
 import java.util.ArrayList;

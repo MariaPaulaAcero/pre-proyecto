@@ -2,25 +2,19 @@ package sample.gui;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import sample.IPersonaCampesina;
-import sample.PersonaCampesina;
+import javafx.stage.Stage;
 import sample.PersonaException;
-import sample.logic.entities.Persona;
-//import sample.sample.logic.PersonaException;
-//import sample.sample.logic.sample.logic.entities.Persona;
-//import sample.sample.logic.services.IPersonaServices;
-//import sample.sample.logic.services.impl.PersonaService;
+import sample.logic.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main extends Application {
@@ -42,7 +36,9 @@ public class Main extends Application {
 
     // Logic Properties
     private IPersonaCampesina personaCampesina;
-
+    private IPersonaComunal personaComunal;
+    private IPersonaSindical personaSindical;
+    private List<Persona>personas;
     //CRUD -
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -63,8 +59,9 @@ public class Main extends Application {
             this.personaCampesina.insert(new Persona("Yordan Eduardo", "Guetio", "Corinto","02/02/2021","Cauca"));
             this.personaCampesina.insert(new Persona("Albeiro", "Hoyos", "Anorí","05/04/2021","Antoquia"));
             this.personaCampesina.insert(new Persona("Wilson", "Lopez", "Aguadas","28/04/2021","Caldas"));
-            this.personaCampesina.insert(new Persona("Aldinever", "Cruz Guaraca", "Aipe","09/05/2021","Huila"));
-        } catch (PersonaException e) {
+            this.personaCampesina.insert(new Persona("Aldinever", "Cruz Guaraca","Aipe","09/05/2021","Huila"));
+
+        } catch(PersonaException e) {
             e.printStackTrace();
         }
 
@@ -95,9 +92,138 @@ public class Main extends Application {
                 exception.printStackTrace();
             }
         });
+
+        this.personaComunal = new PersonaComunal();
+        try {
+            this.personaComunal.insert(new Persona("Robinson", "Quino Bonilla", "Yondó","15/01/2021","Antoquia"));
+            this.personaComunal.insert(new Persona("Janeth", "Zapata", "Dosquebradas","21/01/2021","Risaralda"));
+            this.personaComunal.insert(new Persona("José Miguel", "Barrientos Uribe", "Yarumal","28/01/2021","Antoquia"));
+            this.personaComunal.insert(new Persona("Arcenio", "Quinayás Ruiz", "San Agustín","30/01/2021","Huila"));
+            this.personaComunal.insert(new Persona("Remberto", "Arrieta Bohorquez", "Tarazá","31/01/2021","Antoquia"));
+            this.personaComunal.insert(new Persona("Yordan Eduardo", "Guetio","Corinto","02/02/2021","Cauca"));
+            this.personaComunal.insert(new Persona("Ovidio de Jesús", "Salazar","Herveo","02/02/2021","Tolima"));
+            this.personaComunal.insert(new Persona("Juan Carlos", "Aguirre","La macarena","14/04/2021","Meta"));
+            this.personaComunal.insert(new Persona("Justiniano", "Torres García","Bucaramanga","19/04/2021","Santander"));
+            this.personaComunal.insert(new Persona("Jorge Emilio", "Ramírez Venegas","Aipe","09/05/2021","Huila"));
+
+        } catch(PersonaException e) {
+            e.printStackTrace();
+        }
+
+        personasTable.setItems((ObservableList<Persona>)this.personaComunal.getAll());
+
+        addPersona.setOnAction(e -> {
+            try {
+                Persona p = new Persona(nameInput.getText(), lastNameInput.getText(), deathDateInput.getText(),municipalityInput.getText(),departmentInput.getText());
+                this.personaComunal.insert(p);
+                nameInput.clear();
+                lastNameInput.clear();
+                deathDateInput.clear();
+                municipalityInput.clear();
+                departmentInput.clear();
+            } catch (PersonaException personaException) {
+                personaException.printStackTrace();
+            }
+        });
+
+        deletePersona.setOnAction(e -> {
+            this.personaComunal.delete(personasTable.getSelectionModel().getSelectedItems());
+        });
+
+        fileMenuItems.get("Export").setOnAction(e -> {
+            try {
+                this.personaComunal.export();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        //COMUNALES
+
+        this.personaComunal = new PersonaComunal();
+        try {
+            this.personaComunal.insert(new Persona("Robinson", "Quino Bonilla", "Yondó","15/01/2021","Antoquia"));
+            this.personaComunal.insert(new Persona("Janeth", "Zapata", "Dosquebradas","21/01/2021","Risaralda"));
+            this.personaComunal.insert(new Persona("José Miguel", "Barrientos Uribe", "Yarumal","28/01/2021","Antoquia"));
+            this.personaComunal.insert(new Persona("Arcenio", "Quinayás Ruiz", "San Agustín","30/01/2021","Huila"));
+            this.personaComunal.insert(new Persona("Remberto", "Arrieta Bohorquez", "Tarazá","31/01/2021","Antoquia"));
+            this.personaComunal.insert(new Persona("Yordan Eduardo", "Guetio","Corinto","02/02/2021","Cauca"));
+            this.personaComunal.insert(new Persona("Ovidio de Jesús", "Salazar","Herveo","02/02/2021","Tolima"));
+            this.personaComunal.insert(new Persona("Juan Carlos", "Aguirre","La macarena","14/04/2021","Meta"));
+            this.personaComunal.insert(new Persona("Justiniano", "Torres García","Bucaramanga","19/04/2021","Santander"));
+            this.personaComunal.insert(new Persona("Jorge Emilio", "Ramírez Venegas","Aipe","09/05/2021","Huila"));
+
+        } catch(PersonaException e) {
+            e.printStackTrace();
+        }
+
+        personasTable.setItems((ObservableList<Persona>)this.personaComunal.getAll());
+
+        addPersona.setOnAction(e -> {
+            try {
+                Persona p = new Persona(nameInput.getText(), lastNameInput.getText(), deathDateInput.getText(),municipalityInput.getText(),departmentInput.getText());
+                this.personaComunal.insert(p);
+                nameInput.clear();
+                lastNameInput.clear();
+                deathDateInput.clear();
+                municipalityInput.clear();
+                departmentInput.clear();
+            } catch (PersonaException personaException) {
+                personaException.printStackTrace();
+            }
+        });
+        deletePersona.setOnAction(e -> {
+            this.personaComunal.delete(personasTable.getSelectionModel().getSelectedItems());
+        });
+
+        fileMenuItems.get("Export").setOnAction(e -> {
+            try {
+                this.personaComunal.export();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        // SINDICALES
+        this.personaSindical = new PersonaSindical();
+        try {
+            this.personaSindical.insert(new Persona("Gerardo", "León", "Puerto Gaitán","01/01/2021","Meta"));
+            this.personaSindical.insert(new Persona("Diego", "Betancourt Higuera", "El Yopal","01/01/2021","Casanare"));
+            this.personaSindical.insert(new Persona("Carlos Alberto", "Vidal", "Florida","29/03/2021","Valle del Cauca"));
+            this.personaSindical.insert(new Persona("Beatríz", "Moreno Mosquera", "Buenaventura","03/05/2021","Valle"));
+
+
+        } catch(PersonaException e) {
+            e.printStackTrace();
+        }
+
+        personasTable.setItems((ObservableList<Persona>)this.personaSindical.getAll());
+
+        addPersona.setOnAction(e -> {
+            try {
+                Persona p = new Persona(nameInput.getText(), lastNameInput.getText(), deathDateInput.getText(),municipalityInput.getText(),departmentInput.getText());
+                this.personaSindical.insert(p);
+                nameInput.clear();
+                lastNameInput.clear();
+                deathDateInput.clear();
+                municipalityInput.clear();
+                departmentInput.clear();
+            } catch (PersonaException personaException) {
+                personaException.printStackTrace();
+            }
+        });
+        deletePersona.setOnAction(e -> {
+            this.personaSindical.delete(personasTable.getSelectionModel().getSelectedItems());
+        });
+
+        fileMenuItems.get("Export").setOnAction(e -> {
+            try {
+                this.personaComunal.export();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
     }
-
-
 
     private void setUp() {
         setupTable();
@@ -183,7 +309,7 @@ public class Main extends Application {
         personasTable.getColumns().addAll(nameColumn, lastNameColumn, deathDateColumn, municipalityColumn, departmentColumn);
     }
 
-    private void setupMenu() {
+   private void setupMenu() {
 
         Menu fileMenu = new Menu("File");
 
@@ -196,13 +322,9 @@ public class Main extends Application {
 
         menuBar = new MenuBar();
         menuBar.getMenus().add(fileMenu);
-
-
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
-
 }

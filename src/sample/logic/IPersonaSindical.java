@@ -1,11 +1,8 @@
-package sample;
-
-import sample.logic.entities.Persona;
+package sample.logic;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface IPersonaCampesina {
+public interface IPersonaSindical {
     List<Persona> getAll();
 
     //Persona getById(UUID id);
@@ -13,6 +10,6 @@ public interface IPersonaCampesina {
     Persona insert(Persona persona);
 
     void delete(List<Persona> personas);
-    void export() throws Exception;
 
+    void export() throws Exception;
 }

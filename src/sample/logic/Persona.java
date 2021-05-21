@@ -1,15 +1,13 @@
-package sample.logic.entities;
+package sample.logic;
 
-import javafx.scene.control.TextField;
 import sample.PersonaException;
 
 import javax.swing.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Persona implements Serializable {//para que java pueda guardar objetos en archivos
+public class Persona extends Exportable implements Serializable {//para que java pueda guardar objetos en archivos
     // necesita implementar la interfaz de serializable(input output) (voy a poder convertir la representacion
     // en memoria )como un objeto binario en un objeto serializable que se pueda escribir en algún
     // tipo de fuente en este caso en un archivo , base de dato
@@ -46,7 +44,7 @@ public class Persona implements Serializable {//para que java pueda guardar obje
         return lastName;
     }
     public String getDeathDate() {
-        return deathDate;
+        return "The Death Date is " + this.deathDate;
     }
     public String getMunicipality() {
         return municipality;
@@ -72,12 +70,8 @@ public class Persona implements Serializable {//para que java pueda guardar obje
 
     }
 
-    public String getAge() {
-        return "The age is " + this.deathDate;
-    }
 
-
-    /*@Override
+    @Override
     public List<String> toListString() {
         List<String> result = new ArrayList<>();
         result.add(this.name);
@@ -92,6 +86,4 @@ public class Persona implements Serializable {//para que java pueda guardar obje
     public String getHeader() {
         return "name,LastName,municipality,department,deathDate";
     }
-
-     */
 }
